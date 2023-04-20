@@ -1,0 +1,22 @@
+version: '3'
+
+services:   #name of the services
+  backend:
+    build: .  #specifies the dockerfile located in current directory
+    image: mylogs:sr
+    container_name: logscontainer
+    ports:
+      - "5000:3000" #port mapping of host to container
+    environment:
+      - ENV_MODE=production
+    networks:
+      - mylogs-net #it connects isolated container
+    volumes:
+      - node-volume:/app/logs/  #logs to persist between container restarts
+
+networks:
+  mylogs-net: #created a new bridge network
+    driver: bridge
+
+volumes:
+  node-volume:
